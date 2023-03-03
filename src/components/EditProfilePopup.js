@@ -40,9 +40,29 @@ function EditProfilePopup(props) {
       onSubmit={handleSubmit}
       children={
         <>
-          <input onChange={handleName} type="text" name="name" placeholder="Имя" className="popup__input popup__input_data_name" value={name || ""} id="firstname" required minLength="2" maxLength="40" />
+          <input 
+          onChange={handleName} 
+          type="text" 
+          name="name" 
+          placeholder="Имя" 
+          className="popup__input popup__input_data_name" 
+          value={name || ""} 
+          id="firstname" 
+          required 
+          minLength="2" 
+          maxLength="40" />
           <span className="popup__error" id="firstname-error"></span>
-          <input onChange={handleDescription} type="text" name="about" placeholder="О себе" className="popup__input popup__input_data_description" value={description || ""} id="aboutself" required minLength="2" maxLength="200" />
+          <input 
+          onChange={handleDescription} 
+          type="text" 
+          name="about" 
+          placeholder="О себе" 
+          className="popup__input popup__input_data_description" 
+          value={description || ""} 
+          id="aboutself" 
+          required 
+          minLength="2" 
+          maxLength="200" />
           <span className="popup__error" id="aboutself-error"></span>
         </>
       }

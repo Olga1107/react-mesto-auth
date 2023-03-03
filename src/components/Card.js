@@ -23,15 +23,27 @@ function Card(props) {
 
   return (
     <div className="photo-gallery__card">
-      <img alt={props.card.name} className="photo-gallery__image" src={props.card.link} onClick={handleClick} />
+      <img 
+      alt={props.card.name} 
+      className="photo-gallery__image" 
+      src={props.card.link} 
+      onClick={handleClick} />
       <div className="photo-gallery__caption">
         <h2 className="photo-gallery__title" >{props.card.name}</h2>
         <div className="like-container">
-          <button type="button" className={cardLikeButtonClassName} onClick={handleLikeClick} aria-label="Сердечко для лайка"></button>
+          <button 
+          type="button" 
+          className={cardLikeButtonClassName} 
+          onClick={handleLikeClick} 
+          aria-label="Сердечко для лайка"></button>
           <span className="number-of-likes">{props.card.likes.length}</span>
         </div>
       </div>
-      {isOwn && <button type="button" className="photo-gallery__remove-button" onClick={handleDeleteClick} aria-label="Значок удалить в виде корзины"></button>}
+      {isOwn && <button 
+      type="button" 
+      className="photo-gallery__remove-button" 
+      onClick={handleDeleteClick} 
+      aria-label="Значок удалить в виде корзины"></button>}
     </div>
   )
 

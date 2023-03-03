@@ -35,26 +35,26 @@ function AddPlacePopup(props) {
       onSubmit={handleSubmit}
       children={
         <>
-          <input 
-          onChange={handleName} 
-          type="text" 
-          name="name" 
-          placeholder="Название" 
-          className="popup__input popup__input_data_place-name" 
-          value={name || ""} id="placename" 
-          required 
-          minLength="2" 
-          maxLength="30" />
+          <input
+            onChange={handleName}
+            type="text"
+            name="name"
+            placeholder="Название"
+            className="popup__input popup__input_data_place-name"
+            value={name || ""} id="placename"
+            required
+            minLength="2"
+            maxLength="30" />
           <span className="popup__error" id="placename-error"></span>
-          <input 
-          onChange={handleLink} 
-          type="url" 
-          name="link" 
-          placeholder="Ссылка на картинку" 
-          className="popup__input popup__input_data_url-on-picture" 
-          value={link || ""} 
-          id="urlonpicture" 
-          required />
+          <input
+            onChange={handleLink}
+            type="url"
+            name="link"
+            placeholder="Ссылка на картинку"
+            className="popup__input popup__input_data_url-on-picture"
+            value={link || ""}
+            id="urlonpicture"
+            required />
           <span className="popup__error" id="urlonpicture-error"></span>
         </>
       }

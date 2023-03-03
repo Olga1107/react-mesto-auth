@@ -1,5 +1,4 @@
 const url = "https://auth.nomoreparties.co";
-
 export const register = (email, password) =>
   fetch(`${url}/signup`, {
     method: "POST",

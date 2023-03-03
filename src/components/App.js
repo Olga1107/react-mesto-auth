@@ -15,9 +15,10 @@ import Login from './Login';
 import Register from './Register';
 import InfoTooltip from './InfoTooltip';
 import ProtectedRoute from './ProtectedRoute';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
+
 import { api } from '../utils/Api';
 import * as authApi from '../utils/authApi'
-import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 import okRegistration from '../images/ok-registration.png'
 import errorRegistration from '../images/error-registration.png'
@@ -49,7 +50,7 @@ function App() {
           if (res) {
             setLoggedIn(true);
             setUserData(res.data.email);
-            navigate("/", {replace: true});
+            navigate("/", { replace: true });
           } else {
             setDataInfoTool({
               title: "Что-то пошло не так! Попробуйте ещё раз.",
@@ -86,6 +87,7 @@ function App() {
       });
 
   }
+
 
   function handleCardDelete(card) {
     api
@@ -166,16 +168,17 @@ function App() {
       });
   }
 
-  
+
 
   function handleRegister(email, password) {
     authApi
       .register(email, password)
       .then(() => {
-        navigate("/sign-in", {replace: true});
-        setDataInfoTool({ 
-          title: "Вы успешно зарегистрировались!", 
-          icon: okRegistration });
+        navigate("/sign-in", { replace: true });
+        setDataInfoTool({
+          title: "Вы успешно зарегистрировались!",
+          icon: okRegistration
+        });
       })
       .catch((err) => {
         console.error(err);
@@ -194,7 +197,7 @@ function App() {
         localStorage.setItem("token", data.token);
         setUserData(email);
         setLoggedIn(true);
-        navigate("/", {replace: true});
+        navigate("/", { replace: true });
       })
       .catch((err) => {
         setDataInfoTool({
@@ -210,7 +213,7 @@ function App() {
     setLoggedIn(false);
     setUserData("");
     localStorage.removeItem("token");
-    navigate("/sign-in", {replace: true});
+    navigate("/sign-in", { replace: true });
   }
 
 
@@ -218,32 +221,35 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
 
-        <Header 
-        headerMail={userData}
-        signOut={signOut}
-        />
-        <ProtectedRoute
-        exact
-        path="/"
-        loggedIn={loggedIn}
-        component={Main}
-        onEditProfile={handleEditProfileClick}
-        onAddPlace={handleAddPlaceClick}
-        onEditAvatar={handleEditAvatarClick}
-        setSelectedCard={setSelectedCard}
-        cards={cards}
-        handleCardLike={handleCardLike}
-        handleCardDelete={handleConfirmationDeleteClick}
+        <Header
+          headerMail={userData}
+          signOut={signOut}
         />
 
-<Routes>
-        <Route path='/sign-up' element={<Register handleRegister={handleRegister} />} />
-        <Route path='/sign-in' element={<Login handleLogin={handleLogin} />} />
-        <Route path='/' element={loggedIn ? <Navigate to="/" /> : <Navigate to='/sign-in' />} />
-</Routes>
+
+        <Routes>
+          <Route element={<ProtectedRoute loggedIn={loggedIn} />}>
+            <Route
+              path="/"
+              element={
+                <Main
+                  onEditProfile={handleEditProfileClick}
+                  onAddPlace={handleAddPlaceClick}
+                  onEditAvatar={handleEditAvatarClick}
+                  setSelectedCard={setSelectedCard}
+                  cards={cards}
+                  handleCardLike={handleCardLike}
+                  handleCardDelete={handleConfirmationDeleteClick} />
+              }
+            />
+          </Route>
+          <Route path='/sign-up' element={<Register handleRegister={handleRegister} />} />
+          <Route path='/sign-in' element={<Login handleLogin={handleLogin} />} />
+          <Route path='/' element={loggedIn ? <Navigate to="/" /> : <Navigate to='/sign-in' />} />
+        </Routes>
 
 
-{loggedIn && <Footer />}
+        {loggedIn && <Footer />}
 
         <ImagePopup
           card={selectedCard}
@@ -251,32 +257,32 @@ function App() {
           onClose={closeAllPopup}
         />
 
-        <EditProfilePopup 
-        isOpen={isEditProfilePopupOpen} 
-        onClose={closeAllPopup} 
-        onUpdateUser={handleUpdateUser} />
+        <EditProfilePopup
+          isOpen={isEditProfilePopupOpen}
+          onClose={closeAllPopup}
+          onUpdateUser={handleUpdateUser} />
 
-        <AddPlacePopup 
-        isOpen={isAddPlacePopupOpen} 
-        onClose={closeAllPopup} 
-        handleAddPlaceSubmit={handleAddPlaceSubmit} />
+        <AddPlacePopup
+          isOpen={isAddPlacePopupOpen}
+          onClose={closeAllPopup}
+          handleAddPlaceSubmit={handleAddPlaceSubmit} />
 
-        <ConfirmationDeleteCard 
-        isOpen={isConfirmationDeletePopupOpen} 
-        onClose={closeAllPopup} 
-        card={cardDelete} 
-        onCardDelete={handleCardDelete} />
+        <ConfirmationDeleteCard
+          isOpen={isConfirmationDeletePopupOpen}
+          onClose={closeAllPopup}
+          card={cardDelete}
+          onCardDelete={handleCardDelete} />
 
-        <EditAvatarPopup 
-        onUpdateAvatar={handleUpdateAvatar} 
-        isOpen={isEditAvatarPopupOpen} 
-        onClose={closeAllPopup} />
+        <EditAvatarPopup
+          onUpdateAvatar={handleUpdateAvatar}
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopup} />
 
-        <InfoTooltip 
-        isOpen={isInfoToolTipOpen}
-        onClose={closeAllPopup}
-        title={dataInfoTool.title}
-        icon={dataInfoTool.icon}
+        <InfoTooltip
+          isOpen={isInfoToolTipOpen}
+          onClose={closeAllPopup}
+          title={dataInfoTool.title}
+          icon={dataInfoTool.icon}
         />
 
       </div>

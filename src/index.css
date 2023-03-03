@@ -8,7 +8,7 @@
 @import url(./blocks/header/__logo/header__logo.css);
 @import url(./blocks/header/__info/header__info.css);
 @import url(./blocks/header/__out-link/header__out-link.css);
-@import url(./blocks/header/__out/header__out.css);
+@import url(./blocks/header/__mail/header__mail.css);
 @import url(./blocks/header/__sign-link/header__sign-link.css);
 
 @import url(./blocks/profile/profile.css);

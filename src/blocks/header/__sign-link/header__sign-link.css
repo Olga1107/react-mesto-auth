@@ -6,6 +6,7 @@
     cursor: pointer;
     transition: all .5s ease-in-out;
     text-decoration: none;
+    padding-bottom: 3%;
   }
   
   .header__sign-link:hover {

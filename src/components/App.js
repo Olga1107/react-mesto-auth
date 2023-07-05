@@ -42,10 +42,10 @@ function App() {
   const navigate = useNavigate();
 
   function tokenCheck() {
-    const jwt = localStorage.getItem("jwt");
-    if (jwt) {
+    const token = localStorage.getItem('token');
+    if (token) {
       authApi
-        .checkToken(jwt)
+        .checkToken(token)
         .then((res) => {
           if (res) {
             setLoggedIn(true);

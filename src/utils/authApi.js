@@ -17,7 +17,8 @@ export const authorize = (email, password) =>
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ email, password }),
-  }).then((res) => check(res));
+  })
+  .then((res) => check(res));
 
 export const checkToken = (token) =>
   fetch(`${url}/users/me`, {

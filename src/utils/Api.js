@@ -44,7 +44,10 @@ export default class Api {
   setUserAvatar(userData) {
     return fetch(`${this._url}/users/me/avatar`, {
       method: 'PATCH',
-      headers: this._headers,
+      headers: {
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({
         avatar: userData
       })
@@ -118,7 +121,7 @@ export default class Api {
   }
 
   changeLikeCardStatus(cardId, isLiked) {
-    return fetch(`${this._url}/cards/likes/${cardId}`, {
+    return fetch(`${this._url}/cards/${cardId}/likes`, {
       method: isLiked ? "PUT" : "DELETE",
       headers: {
         authorization: `Bearer ${localStorage.getItem('token')}`,

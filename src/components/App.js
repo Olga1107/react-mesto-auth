@@ -39,6 +39,8 @@ function App() {
   });
   const [loggedIn, setLoggedIn] = useState(false);
   const [userData, setUserData] = useState("");
+  const [isTokenChecked, setisTokenChecked] = useState(false);
+
   const navigate = useNavigate();
 
   function tokenCheck() {
@@ -58,25 +60,35 @@ function App() {
             });
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.log(err))
+        .finally(() => {
+          setisTokenChecked(true);
+        });
+    } else {
+      setisTokenChecked(true);
     }
   }
 
   useEffect(() => {
     tokenCheck();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loggedIn])
+
+  useEffect(() => {
+    if (loggedIn) {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([users, cardData]) => {
-        setCurrentUser(users)
+        setCurrentUser(users.user);
         setCards(cardData);
       })
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
-      });
+      });}
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [loggedIn])
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    const isLiked = card.likes.some(i => i === currentUser._id);
     api
       .changeLikeCardStatus(card._id, !isLiked)
       .then((newCard) => {
@@ -227,27 +239,29 @@ function App() {
           signOut={signOut}
         />
 
-
-        <Routes>
-          <Route element={<ProtectedRoute loggedIn={loggedIn} />}>
-            <Route
-              path="/"
-              element={
-                <Main
-                  onEditProfile={handleEditProfileClick}
-                  onAddPlace={handleAddPlaceClick}
-                  onEditAvatar={handleEditAvatarClick}
-                  setSelectedCard={setSelectedCard}
-                  cards={cards}
-                  handleCardLike={handleCardLike}
-                  handleCardDelete={handleConfirmationDeleteClick} />
-              }
-            />
-          </Route>
-          <Route path='/sign-up' element={<Register handleRegister={handleRegister} />} />
-          <Route path='/sign-in' element={<Login handleLogin={handleLogin} />} />
-          <Route path='/' element={loggedIn ? <Navigate to="/" /> : <Navigate to='/sign-in' />} />
-        </Routes>
+{isTokenChecked && (
+  <Routes>
+  <Route element={<ProtectedRoute loggedIn={loggedIn} />}>
+    <Route
+      path="/"
+      element={
+        <Main
+          onEditProfile={handleEditProfileClick}
+          onAddPlace={handleAddPlaceClick}
+          onEditAvatar={handleEditAvatarClick}
+          setSelectedCard={setSelectedCard}
+          cards={cards}
+          handleCardLike={handleCardLike}
+          handleCardDelete={handleConfirmationDeleteClick} />
+      }
+    />
+  </Route>
+  <Route path='/sign-up' element={<Register handleRegister={handleRegister} />} />
+  <Route path='/sign-in' element={<Login handleLogin={handleLogin} />} />
+  <Route path='/' element={loggedIn ? <Navigate to="/" /> : <Navigate to='/sign-in' />} />
+</Routes>
+  )}
+        
 
 
         {loggedIn && <Footer />}
